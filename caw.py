@@ -41,15 +41,31 @@ def main():
  page=1614351288846
  #初始待刷新页面ID
  lastId="6716721678028090367"
+ comments_list=[]
  for i in range(0,9):
   html=get_content(page,lastId)
  #获取评论数据
   commentlist=get_comment(html)
-  print("------第"+str(i)+"轮页面评论------")
+  #print("------第"+str(i)+"轮页面评论------")
   for j in range(1,len(commentlist)):
-   print("第"+str(j)+"条评论：" +str(commentlist[j]))
+   #print("第"+str(j)+"条评论：" +str(commentlist[j]))
+   comments_list.append(commentlist[j])
  #获取下一轮刷新页ID
   lastId=get_lastId(html)
- page += 1
- 
+ page+=1
+ print(comments_list)
+ with open('comments_list.txt','w',encoding='utf-8') as f:
+    for i in comments_list:
+        f.write(i+'\n')
+ filter=[]
+ for i in comments_list:
+     word =re.findall('[\u4e00-\u9fa5]',i)
+     if len(word)==0:
+         continue
+     else:
+         new=''.join(word)
+     filter.append(new)
+ with open('comments_list.txt','w') as f:
+     for i in filter:
+        f.write(i)
 main()
