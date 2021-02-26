@@ -1,6 +1,7 @@
 import jieba
 import json
 
+
 comments_list=open('comments_list.txt', 'r',errors='ignore').read()
 
 words=jieba.lcut(comments_list)
